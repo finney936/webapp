@@ -1,0 +1,16 @@
+@charset "ISO-8859-1";
+
+body {
+	background-image: url("../Images/background-index.jpg");
+}
+
+.sign {
+	font-family: Arial;
+	font-style: italic;
+}
+
+.mid{
+
+	padding: 70px 0;
+	text-align: center;
+}
