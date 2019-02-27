@@ -10,6 +10,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MainController {
 
+	@RequestMapping("/")
+	public ModelAndView home() {
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("index");
+		
+		return mv;
+	}
+	
 	@RequestMapping("/home")
 	public ModelAndView home(HttpServletRequest req, HttpServletResponse res) {
 		
@@ -17,7 +26,7 @@ public class MainController {
 		String password = req.getParameter("pass");
 		
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("View/home.jsp");
+		mv.setViewName("home");
 		mv.addObject("username", username);
 		mv.addObject("password", password);
 		
