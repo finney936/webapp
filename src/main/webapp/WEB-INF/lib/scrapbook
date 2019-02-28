@@ -1,0 +1,7 @@
+create table users (username varchar(30), password varchar(30), primary key (username))
+
+drop table users
+
+insert into users values ('finney', 'pass')
+
+select * from users where username = 'finney'
