@@ -17,6 +17,10 @@
 			<button type="submit">Sign In</button>
 			
 		</form>
+		
+		<form action="register">
+			<button type="submit">REGISTER</button>
+		</form>
 	</div>
 	
 </body>

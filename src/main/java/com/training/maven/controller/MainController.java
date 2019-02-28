@@ -7,11 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.training.maven.beans.User;
+import com.training.maven.dao.Dao;
+
 @Controller
 public class MainController {
 
-	@RequestMapping("/")
-	public ModelAndView home() {
+	@RequestMapping({"/","index"})
+	public ModelAndView index() {
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("index");
@@ -27,6 +30,48 @@ public class MainController {
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
+		mv.addObject("username", username);
+		mv.addObject("password", password);
+		
+		return mv;
+	}
+	
+	@RequestMapping("/register")
+	public ModelAndView register() {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("register");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/registering")
+	public ModelAndView registering(HttpServletRequest req, HttpServletResponse res) {
+		
+		User user = new User();
+		
+		user.setUsername(req.getParameter("user"));
+		user.setPassword(req.getParameter("pass"));
+		
+		ModelAndView mv = new ModelAndView();
+		
+		if(Dao.insertUser(user))
+			mv.setViewName("success");
+		else
+			mv.setViewName("fail");
+		
+		return mv;
+	}
+	
+	@RequestMapping("/success")
+	public ModelAndView success(HttpServletRequest req, HttpServletResponse res) {
+		
+		String username = req.getParameter("user");
+		String password = req.getParameter("pass");
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("success");
 		mv.addObject("username", username);
 		mv.addObject("password", password);
 		
