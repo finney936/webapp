@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	Hi <%= request.getAttribute("username") %>	
+	Hi <%= request.getParameter("user") %>	
 
 </body>
 </html>
