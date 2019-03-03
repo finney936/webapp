@@ -1,17 +1,22 @@
 package com.training.maven.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.training.maven.beans.User;
 import com.training.maven.dao.Dao;
+import com.training.maven.beans.Address;
 /**
  * Servlet implementation class MainServlet
  */
+
+@WebServlet("/")
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -31,6 +36,8 @@ public class MainServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
+		getServletContext().setAttribute("web", "Website.com");
+		
 		if(request.getServletPath().equals("/"))
 			request.getRequestDispatcher("View/index.jsp").forward(request, response);
 		else if(request.getServletPath().equals("/home"))
@@ -44,11 +51,20 @@ public class MainServlet extends HttpServlet {
 			user.setUsername(request.getParameter("user"));
 			user.setPassword(request.getParameter("pass"));
 			
-			if(Dao.insertUser(user))
-				request.getRequestDispatcher("View/success.jsp").forward(request, response);
-			else
-				request.getRequestDispatcher("View/fail.jsp").forward(request, response);
+			Address address = new Address();
+			
+			user.setAddress(address);
+			
+			Dao.insertUser(user);
+			
+//			if(Dao.insertUser(user))
+//				request.getRequestDispatcher("View/success.jsp").forward(request, response);
+//			else
+//				request.getRequestDispatcher("View/error.jsp").forward(request, response); 
 		}
+		else if(request.getServletPath().equals("/password"))
+			request.getRequestDispatcher("View/password.jsp").forward(request, response);
+			
 	}
 
 	/**

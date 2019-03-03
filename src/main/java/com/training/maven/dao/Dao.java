@@ -3,89 +3,96 @@ package com.training.maven.dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.training.maven.beans.Address;
+import com.training.maven.beans.Teacher;
 import com.training.maven.beans.User;
+import oracle.jdbc.driver.OracleDriver;
 
 public class Dao {
 
-	public static Connection getConnection() {
+	public static Configuration getConnection() {
 
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Configuration configuration = new Configuration().configure().addAnnotatedClass(User.class).addAnnotatedClass(Teacher.class);
 		
-		String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-		String user = "system";
-		String password = "Blackshadow936";
-		Connection connection = null;
-		
-		try {
-			connection = DriverManager.getConnection(url, user, password);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return connection;
+		return configuration;
 		
 	}
 
-	public static boolean insertUser(User user) {
+	public static void insertUser(User user) {
 		
-		String query = "insert into users (username, password) values ('" + user.getUsername() + "', '" + user.getPassword() + "')";
+		Teacher teach1 = new Teacher();
+		teach1.setName("Manjunath");
+		teach1.setSchool("Bishop");
+		teach1.setUser(user);
 		
-		Connection connection = getConnection();
+		Teacher teach3 = new Teacher();
+		teach3.setName("Lokesh");
+		teach3.setSchool("Bishop");
 		
-		int i = 0;
-		try {
-			Statement statement = connection.createStatement();
-			
-			i = statement.executeUpdate(query);
-			
-			// Releasing resources
-			statement.close();
-			connection.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			return false;
-		}
+		User user2 = new User();
 		
-		if(i > 0)
-			return true;
-		else
-			return false;
+		user2.setUsername("finney");
+		user2.setPassword("whatever");
+		user2.setAddress(new Address());
+		
+		Teacher teach2 = new Teacher();
+		teach2.setName("Pravin");
+		teach2.setSchool("Bishop");
+		
+		user.getList().add(teach1);
+		user.getList().add(teach2);
+		user2.getList().add(teach3);
+		
+		Configuration configuration = getConnection();
+		
+		SessionFactory sessionFactory = configuration.buildSessionFactory();
+		
+		Session session = sessionFactory.openSession();
+		
+		Transaction transaction = session.beginTransaction();
+		
+		session.save(teach1);
+		session.save(teach2);
+		session.save(teach3);
+		session.save(user);
+		session.save(user2);
+		
+		transaction.commit();
+	
 	}
 	
 	public static User getUser(String username) throws Exception{
 		
-		String query = "select * from users where username = '" + username + "'";
+		Configuration configuration = getConnection();
 		
-		Connection connection = getConnection();
+		SessionFactory sessionFactory = configuration.buildSessionFactory();
 		
-		Statement statement = connection.createStatement();
+		Session session = sessionFactory.openSession();
 		
-		ResultSet set = statement.executeQuery(query);
-
-		User user = new User();
+		Transaction transaction = session.beginTransaction();
 		
-		while(set.next()) {
-			user.setUsername(set.getString("username"));
-			user.setPassword(set.getString("password"));
+		User user = session.get(User.class, username);
+		
+		transaction.commit();
+		
+		if(user != null) {
+			return user;
 		}
-
-		// Releasing resources
-		statement.close();
-		connection.close();
-		
-		return user;
+		else
+			return new User();
 	}
 	
-	public static boolean deleteUser(String username) throws Exception{
+	/*public static boolean deleteUser(String username) throws Exception{
 		
 		String query = "DELETE FROM users WHERE username='"+ username +"'";
 		
@@ -104,4 +111,34 @@ public class Dao {
 		else
 			return false;
 	}
+	
+	public static ArrayList<User> userList(){
+		
+		ArrayList<User> list = new ArrayList<>();
+		
+		String query = "select * from users";
+		
+		Connection connection = getConnection();
+		
+		try {
+			Statement statement = connection.createStatement();
+			
+			ResultSet set = statement.executeQuery(query);
+			
+			while(set.next()) {
+				
+				User user = new User();
+				
+				user.setUsername(set.getString(1));
+				user.setPassword(set.getString(2));
+				
+				list.add(user);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
+	}*/
 }
