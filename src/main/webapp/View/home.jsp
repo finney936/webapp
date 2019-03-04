@@ -18,6 +18,8 @@ javax.servlet.http.Cookie"%>
 	
 	String user = null;
 	
+	int flag = 0;
+	
 	Cookie[] cookies = request.getCookies();
 	
 	for(Cookie c: cookies){
@@ -25,19 +27,22 @@ javax.servlet.http.Cookie"%>
 		if(c.getName().equals("user")){
 			
 			user = c.getValue();
-		}
-		else{
 			
-			Cookie cookie = new Cookie("user", request.getParameter("user"));
-			
-			response.addCookie(cookie);
+			flag = 1;
 		}
 			
+	}
+	
+	if(flag == 0){
+		
+		Cookie cookie = new Cookie("user", request.getParameter("user"));
+		
+		response.addCookie(cookie);
 	}
 	   
 	%>
 
-	From cookie: <%= user %>
+	From cookie:<i> <%= user %> </i><br>
 	
 	<%
 	

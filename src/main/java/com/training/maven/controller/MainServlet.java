@@ -51,10 +51,6 @@ public class MainServlet extends HttpServlet {
 			user.setUsername(request.getParameter("user"));
 			user.setPassword(request.getParameter("pass"));
 			
-			Address address = new Address();
-			
-			user.setAddress(address);
-			
 			Dao.insertUser(user);
 			
 //			if(Dao.insertUser(user))
