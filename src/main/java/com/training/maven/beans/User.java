@@ -1,6 +1,8 @@
 package com.training.maven.beans;
 
-public class User {
+import org.springframework.beans.factory.InitializingBean;
+
+public class User{
 
 	private String username;
 	private String password;

@@ -3,6 +3,9 @@ package com.training.maven.dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -10,6 +13,10 @@ import com.training.maven.beans.User;
 
 public class Dao {
 
+	@Autowired
+	static
+	User user;
+	
 	public static Connection getConnection() {
 
 		try {
@@ -46,12 +53,12 @@ public class Dao {
 			Statement statement = connection.createStatement();
 			
 			i = statement.executeUpdate(query);
-			
 			// Releasing resources
 			statement.close();
 			connection.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return false;
 		}
 		
@@ -71,8 +78,6 @@ public class Dao {
 		
 		ResultSet set = statement.executeQuery(query);
 
-		User user = new User();
-		
 		while(set.next()) {
 			user.setUsername(set.getString("username"));
 			user.setPassword(set.getString("password"));
