@@ -1,17 +1,10 @@
 package com.training.maven.beans;
 
-<<<<<<< HEAD
-import org.springframework.beans.factory.InitializingBean;
-
-public class User{
-=======
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity(name="users")
 public class User {
->>>>>>> servlet-based-config-web-xml
 
 	@Id
 	private String username;
