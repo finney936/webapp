@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.training.maven.beans.Address;
 import com.training.maven.beans.User;
@@ -16,17 +17,23 @@ public class Dao {
 
 	static Configuration configuration = new Configuration().configure().addAnnotatedClass(User.class);
 
+	@Autowired
+	static
+	UserRepo repo;
+	
 	public static void insertUser(User user) {
 		
-		SessionFactory sessionFactory = configuration.buildSessionFactory();
+//		SessionFactory sessionFactory = configuration.buildSessionFactory();
+//		
+//		Session session = sessionFactory.openSession();
+//		
+//		Transaction transaction = session.beginTransaction();
+//		
+//		session.save(user);
+//		
+//		transaction.commit();
 		
-		Session session = sessionFactory.openSession();
-		
-		Transaction transaction = session.beginTransaction();
-		
-		session.save(user);
-		
-		transaction.commit();
+		repo.save(user);
 	
 	}
 	
