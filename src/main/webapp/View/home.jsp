@@ -10,11 +10,9 @@ javax.servlet.http.Cookie"%>
 </head>
 <body>
 
-<<<<<<< HEAD
 	<span>Hi</span> <%= request.getAttribute("username") %>	
-=======
+
 	<% session.setAttribute("user", request.getParameter("user")); %>
->>>>>>> servlet-based-config-web-xml
 
 	Hi <%= request.getParameter("user") %><br>
 	
@@ -61,6 +59,6 @@ javax.servlet.http.Cookie"%>
 	
 	<br><form action="password"><button type="submit">Get Password</button></form>
 	
-	<footer><%= application.getAttribute("web") %></footer>
+	<footer>Website.com</footer>
 </body>
 </html>

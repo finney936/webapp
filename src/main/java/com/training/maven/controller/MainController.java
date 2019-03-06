@@ -18,10 +18,11 @@ public class MainController {
 	@Autowired
 	User user;
 	
+	ModelAndView mv = new ModelAndView();
+	
 	@RequestMapping({"/","/index"})
 	public ModelAndView index() {
 		
-		ModelAndView mv = new ModelAndView();
 		mv.setViewName("index");
 		
 		return mv;
@@ -30,7 +31,6 @@ public class MainController {
 	@RequestMapping("/home")
 	public ModelAndView home(@RequestParam("user")String username, @RequestParam("pass")String password) {
 		
-		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
 		mv.addObject("username", username);
 		mv.addObject("password", password);
@@ -40,8 +40,6 @@ public class MainController {
 	
 	@RequestMapping("/register")
 	public ModelAndView register() {
-		
-		ModelAndView mv = new ModelAndView();
 		
 		mv.setViewName("register");
 		
@@ -53,8 +51,6 @@ public class MainController {
 		
 		user.setUsername(req.getParameter("user"));
 		user.setPassword(req.getParameter("pass"));
-		
-		ModelAndView mv = new ModelAndView();
 		
 		if(Dao.insertUser(user))
 			mv.setViewName("success");
@@ -70,10 +66,17 @@ public class MainController {
 		String username = req.getParameter("user");
 		String password = req.getParameter("pass");
 		
-		ModelAndView mv = new ModelAndView();
 		mv.setViewName("success");
 		mv.addObject("username", username);
 		mv.addObject("password", password);
+		
+		return mv;
+	}
+	
+	@RequestMapping("/password")
+	public ModelAndView password(HttpServletRequest req, HttpServletResponse res) {
+		
+		mv.setViewName("password");
 		
 		return mv;
 	}

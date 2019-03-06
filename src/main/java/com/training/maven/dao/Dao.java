@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.persistence.Query;
@@ -24,9 +25,6 @@ public class Dao {
 
 	static Configuration configuration = new Configuration().configure().addAnnotatedClass(User.class);
 
-	@Autowired
-	static UserRepo repo;
-
 	public static Connection getConnection() {
 
 		try {
@@ -38,7 +36,7 @@ public class Dao {
 
 		String url = "jdbc:oracle:thin:@localhost:1521:orcl";
 		String user = "system";
-		String password = "Blackshadow936";
+		String password = "Oracle123";
 		Connection connection = null;
 
 		try {
@@ -52,41 +50,57 @@ public class Dao {
 
 	}
 
-	/*
-	 * public static boolean insertUser(User user) {
-	 * 
-	 * String query = "insert into users (username, password) values ('" +
-	 * user.getUsername() + "', '" + user.getPassword() + "')";
-	 * 
-	 * Connection connection = getConnection();
-	 * 
-	 * int i = 0; try { Statement statement = connection.createStatement();
-	 * 
-	 * i = statement.executeUpdate(query); // Releasing resources statement.close();
-	 * connection.close(); } catch (SQLException e) { // TODO Auto-generated catch
-	 * block e.printStackTrace(); return false; }
-	 * 
-	 * if(i > 0) return true; else return false; }
-	 */
-
 	public static boolean insertUser(User user) {
 
-//		SessionFactory sessionFactory = configuration.buildSessionFactory();
-//		
-//		Session session = sessionFactory.openSession();
-//		
-//		Transaction transaction = session.beginTransaction();
-//		
-//		session.save(user);
-//		
-//		transaction.commit();
+		String query = "insert into users (username, password) values ('" + user.getUsername() + "', '"
+				+ user.getPassword() + "')";
 
-		if(repo.save(user) != null)
+		Connection connection = getConnection();
+
+		int i = 0;
+
+		try {
+
+			Statement statement = connection.createStatement();
+
+			i = statement.executeUpdate(query);
+
+			// Releasing resources
+
+			statement.close();
+			connection.close();
+		}
+
+		catch (SQLException e) {
+
+			e.printStackTrace();
+
+			return false;
+
+		}
+
+		if (i > 0)
 			return true;
 		else
 			return false;
 
 	}
+
+	/*
+	 * public static boolean insertUser(User user) {
+	 * 
+	 * SessionFactory sessionFactory = configuration.buildSessionFactory();
+	 * 
+	 * Session session = sessionFactory.openSession();
+	 * 
+	 * Transaction transaction = session.beginTransaction();
+	 * 
+	 * session.save(user);
+	 * 
+	 * transaction.commit();
+	 * 
+	 * }
+	 */
 
 	public static User getUser(String username) throws Exception {
 
@@ -138,7 +152,7 @@ public class Dao {
 		list = (ArrayList<User>) query.getResultList();
 
 		transaction.commit();
-		
+
 		return list;
 	}
 }

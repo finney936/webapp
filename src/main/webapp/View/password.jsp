@@ -10,7 +10,7 @@
 	
 	<%= Dao.getUser((String)session.getAttribute("user")).getPassword() %>
 	
-	<footer><%= application.getAttribute("web") %></footer>
+	<footer>Website.com</footer>
 
 </body>
 </html>

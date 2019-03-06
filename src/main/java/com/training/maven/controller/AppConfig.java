@@ -2,12 +2,10 @@ package com.training.maven.controller;
 
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.validation.MessageCodesResolver;
@@ -30,10 +28,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.training.maven.beans.User;
 
-@EnableAutoConfiguration
 @Configuration
 @EnableWebMvc
-@EnableJpaRepositories("com.training.maven.dao")
 @ComponentScan("com.training.maven.*")
 public class AppConfig implements WebMvcConfigurer{
 
