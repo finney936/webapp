@@ -1,5 +1,6 @@
 package com.training.maven.dao;
 
+<<<<<<< HEAD
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -8,11 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+=======
+import java.util.ArrayList;
+>>>>>>> servlet-based-config-web-xml
 
+import javax.persistence.Query;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.training.maven.beans.Address;
 import com.training.maven.beans.User;
 
 public class Dao {
 
+<<<<<<< HEAD
 	@Autowired
 	static
 	User user;
@@ -66,16 +80,39 @@ public class Dao {
 			return true;
 		else
 			return false;
+=======
+	static Configuration configuration = new Configuration().configure().addAnnotatedClass(User.class);
+
+	@Autowired
+	static
+	UserRepo repo;
+	
+	public static void insertUser(User user) {
+		
+//		SessionFactory sessionFactory = configuration.buildSessionFactory();
+//		
+//		Session session = sessionFactory.openSession();
+//		
+//		Transaction transaction = session.beginTransaction();
+//		
+//		session.save(user);
+//		
+//		transaction.commit();
+		
+		repo.save(user);
+	
+>>>>>>> servlet-based-config-web-xml
 	}
 	
 	public static User getUser(String username) throws Exception{
 		
-		String query = "select * from users where username = '" + username + "'";
+		SessionFactory sessionFactory = configuration.buildSessionFactory();
 		
-		Connection connection = getConnection();
+		Session session = sessionFactory.openSession();
 		
-		Statement statement = connection.createStatement();
+		Transaction transaction = session.beginTransaction();
 		
+<<<<<<< HEAD
 		ResultSet set = statement.executeQuery(query);
 
 		while(set.next()) {
@@ -86,11 +123,20 @@ public class Dao {
 		// Releasing resources
 		statement.close();
 		connection.close();
+=======
+		User user = session.get(User.class, username);
 		
-		return user;
+		transaction.commit();
+>>>>>>> servlet-based-config-web-xml
+		
+		if(user != null) {
+			return user;
+		}
+		else
+			return new User();
 	}
 	
-	public static boolean deleteUser(String username) throws Exception{
+/*	public static boolean deleteUser(String username) throws Exception{
 		
 		String query = "DELETE FROM users WHERE username='"+ username +"'";
 		
@@ -108,5 +154,22 @@ public class Dao {
 			return true;
 		else
 			return false;
+	}*/
+	
+	public static ArrayList<User> userList(){
+		
+		ArrayList<User> list;
+		
+		SessionFactory sessionFactory = configuration.buildSessionFactory();
+		
+		Session session = sessionFactory.openSession();
+		
+		Transaction transaction = session.beginTransaction();
+		
+		Query query = session.createQuery("from users");
+		
+		list = (ArrayList<User>)query.getResultList();
+		
+		return list;
 	}
 }

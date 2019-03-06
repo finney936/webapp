@@ -10,21 +10,21 @@ import static com.training.maven.dao.Dao.*;
 
 public class TestDao {
 
-	@Test
-	public void testInsertUser() throws Exception{
-		
-		User user = new User();
-		
-		user.setUsername("new");
-		user.setPassword("lol");
-		
-		assertEquals(true, insertUser(user));
-	}
+//	@Test
+//	public void testInsertUser() throws Exception{
+//		
+//		User user = new User();
+//		
+//		user.setUsername("new");
+//		user.setPassword("lol");
+//		
+//		assertEquals(true, insertUser(user));
+//	}
 	
 	@Test
 	public void testGetUser() throws Exception{
 		
-		assertEquals("lol", getUser("haha").getPassword());
+		assertEquals("ummu", getUser("chuppu").getPassword());
 		assertEquals(null, getUser("not present").getPassword());
 	}
 	

@@ -19,9 +19,10 @@
 		</form>
 		
 		<form action="register">
-			<button type="submit">REGISTER</button>
+			<button type="submit">Register</button>
 		</form>
 	</div>
-	
+
+<footer><%= application.getAttribute("web") %></footer>
 </body>
 </html>
