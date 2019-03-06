@@ -18,12 +18,6 @@ public class MainController {
 	@Autowired
 	User user;
 	
-	@RequestMapping("/css")
-	public String css() {
-		
-		return "styles-1";
-	}
-	
 	@RequestMapping({"/","/index"})
 	public ModelAndView index() {
 		

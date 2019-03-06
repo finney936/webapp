@@ -1,7 +1,7 @@
 @charset "ISO-8859-1";
 
 body {
-	background-image: url("../Images/background-index.jpg");
+	background-image: url("http://localhost:8080/webapp/images/background-index.jpg");
 }
 
 .sign {

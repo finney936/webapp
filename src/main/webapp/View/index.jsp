@@ -1,7 +1,7 @@
 <html>
 <head>
 
-	<link rel="stylesheet" href="/css">
+	<link rel="stylesheet" href="http://localhost:8080/webapp/css/styles-1.css">
 
 </head>
 
@@ -23,6 +23,6 @@
 		</form>
 	</div>
 
-<footer><%= application.getAttribute("web") %></footer>
+<footer>Website.com</footer>
 </body>
 </html>
