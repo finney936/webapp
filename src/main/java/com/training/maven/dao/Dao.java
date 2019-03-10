@@ -3,7 +3,6 @@ package com.training.maven.dao;
 import java.sql.Connection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import java.sql.DriverManager;
