@@ -22,21 +22,36 @@ import com.training.maven.beans.User;
 @Component
 public class Dao {
 
-	@Autowired
-	User user;
-
-	@Autowired
-	Configuration configuration;
+	private User user;
+	private Configuration configuration;
 	
-	String url;
-	String username;
-	String password;
+	private String url;
+	private String username;
+	private String password;
 	
 	public Dao(String url, String username, String password) {
 		super();
 		this.url = url;
 		this.username = username;
 		this.password = password;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
+	@Autowired
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Configuration getConfiguration() {
+		return configuration;
+	}
+
+	@Autowired
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
 	}
 
 	public Connection getConnection() {
