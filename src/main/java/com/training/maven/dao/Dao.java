@@ -3,6 +3,8 @@ package com.training.maven.dao;
 import java.sql.Connection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Component;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,14 +20,27 @@ import org.hibernate.cfg.Configuration;
 
 import com.training.maven.beans.User;
 
+@Component
 public class Dao {
 
 	@Autowired
-	static User user;
+	User user;
 
-	static Configuration configuration = new Configuration().configure().addAnnotatedClass(User.class);
+	@Autowired
+	Configuration configuration;
+	
+	String url;
+	String username;
+	String password;
+	
+	public Dao(String url, String username, String password) {
+		super();
+		this.url = url;
+		this.username = username;
+		this.password = password;
+	}
 
-	public static Connection getConnection() {
+	public Connection getConnection() {
 
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -34,13 +49,10 @@ public class Dao {
 			e.printStackTrace();
 		}
 
-		String url = "jdbc:oracle:thin:@localhost:1521:orcl";
-		String user = "system";
-		String password = "Oracle123";
 		Connection connection = null;
 
 		try {
-			connection = DriverManager.getConnection(url, user, password);
+			connection = DriverManager.getConnection(url, username, password);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,7 +62,7 @@ public class Dao {
 
 	}
 
-	public static boolean insertUser(User user) {
+	public boolean insertUser(User user) {
 
 		String query = "insert into users (username, password) values ('" + user.getUsername() + "', '"
 				+ user.getPassword() + "')";
@@ -102,7 +114,7 @@ public class Dao {
 	 * }
 	 */
 
-	public static User getUser(String username) throws Exception {
+	public User getUser(String username) throws Exception {
 
 		SessionFactory sessionFactory = configuration.buildSessionFactory();
 
@@ -137,7 +149,7 @@ public class Dao {
 	 */
 
 	@SuppressWarnings("unchecked")
-	public static ArrayList<User> userList() {
+	public ArrayList<User> userList() {
 
 		ArrayList<User> list;
 

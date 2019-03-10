@@ -12,7 +12,7 @@ javax.servlet.http.Cookie"%>
 
 	<span>Hi</span> <%= request.getAttribute("username") %>	
 
-	<% session.setAttribute("user", request.getParameter("user")); %>
+	<% session.setAttribute("user", request.getAttribute("username")); %>
 
 	Hi <%= request.getParameter("user") %><br>
 	
@@ -48,7 +48,7 @@ javax.servlet.http.Cookie"%>
 	
 	<%
 	
-	ArrayList<User> list = Dao.userList();
+	ArrayList<User> list = (ArrayList<User>)request.getAttribute("list");
 	
 	for(int i = 0; i < list.size(); i++){
 		

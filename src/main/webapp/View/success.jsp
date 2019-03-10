@@ -14,7 +14,7 @@
 
     window.setTimeout(function(){
 
-        window.location.href = "";
+        window.location.href = "index";
 
     }, 5000);
 

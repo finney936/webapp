@@ -2,6 +2,7 @@ package com.training.maven.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ public class MainController {
 
 	@Autowired
 	User user;
+	@Autowired
+	Dao dao;
 	
 	ModelAndView mv = new ModelAndView();
 	
@@ -34,6 +37,7 @@ public class MainController {
 		mv.setViewName("home");
 		mv.addObject("username", username);
 		mv.addObject("password", password);
+		mv.addObject("list", dao.userList());
 		
 		return mv;
 	}
@@ -52,7 +56,7 @@ public class MainController {
 		user.setUsername(req.getParameter("user"));
 		user.setPassword(req.getParameter("pass"));
 		
-		if(Dao.insertUser(user))
+		if(dao.insertUser(user))
 			mv.setViewName("success");
 		else
 			mv.setViewName("fail");
@@ -74,9 +78,10 @@ public class MainController {
 	}
 	
 	@RequestMapping("/password")
-	public ModelAndView password(HttpServletRequest req, HttpServletResponse res) {
+	public ModelAndView password(HttpServletRequest req, HttpServletResponse res, HttpSession session) throws Exception {
 		
 		mv.setViewName("password");
+		mv.addObject("password", dao.getUser((String)session.getAttribute("user")).getPassword());
 		
 		return mv;
 	}

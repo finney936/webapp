@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Profile;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.validation.MessageCodesResolver;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.training.maven.beans.User;
+import com.training.maven.dao.Dao;
 
 @Configuration
 @EnableWebMvc
@@ -45,29 +47,48 @@ public class AppConfig implements WebMvcConfigurer{
 	}
 	
 	@Bean(name = "user")
-	@Scope(scopeName = "prototype")
-	public User user1() {
-
-		User user = new User();
-		
-		user.setUsername("User");
-		user.setPassword("Password");
+	public User user() {
 	
-		return user;
+		return new User();
 	}
 	
-	@Bean(name = "user2")
-	@Scope(scopeName = "prototype")
-	public User user2() {
-
-		User user = new User();
+	@Bean("configuration")
+	@Profile("finney")
+	public org.hibernate.cfg.Configuration configurationFinney() {
 		
-		user.setUsername("useru");
-		user.setPassword("passu");
-	
-		return user;
+		return new org.hibernate.cfg.Configuration().configure().addAnnotatedClass(User.class);
 	}
 
+	@Bean("configuration")
+	@Profile("rohith")
+	public org.hibernate.cfg.Configuration configurationRohith() {
+		
+		return new org.hibernate.cfg.Configuration().configure("rohith.hibernate.cfg.xml").addAnnotatedClass(User.class);
+	}
+	
+	@Bean("dao")
+	@DependsOn("configuration")
+	@Profile("finney")
+	public Dao daoFinney() {
+		
+		String url = "jdbc:oracle:thin:@localhost:1521:orcl";
+		String username = "system";
+		String password = "Oracle123";
+		
+		return new Dao(url, username, password);
+	}
+
+	@Bean("dao")
+	@Profile("rohith")
+	public Dao daoRohith() {
+		
+		String url = "jdbc:oracle:thin:@localhost:1521:PracticeSamp";
+		String username = "system";
+		String password = "Oracle123";
+		
+		return new Dao(url, username, password);
+	}
+	
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
 		// TODO Auto-generated method stub

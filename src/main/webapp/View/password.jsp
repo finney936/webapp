@@ -8,7 +8,7 @@
 </head>
 <body>
 	
-	<%= Dao.getUser((String)session.getAttribute("user")).getPassword() %>
+	<%= (String)session.getAttribute("password") %>
 	
 	<footer>Website.com</footer>
 

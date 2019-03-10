@@ -3,6 +3,7 @@ package com.training.maven.dao;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.training.maven.beans.User;
 
@@ -10,6 +11,9 @@ import static com.training.maven.dao.Dao.*;
 
 public class TestDao {
 
+	@Autowired
+	Dao dao;
+	
 //	@Test
 //	public void testInsertUser() throws Exception{
 //		
@@ -24,8 +28,8 @@ public class TestDao {
 	@Test
 	public void testGetUser() throws Exception{
 		
-		assertEquals("ummu", getUser("chuppu").getPassword());
-		assertEquals(null, getUser("not present").getPassword());
+		assertEquals("ummu", dao.getUser("chuppu").getPassword());
+		assertEquals(null, dao.getUser("not present").getPassword());
 	}
 	
 //	@Test
