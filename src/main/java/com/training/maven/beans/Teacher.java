@@ -7,18 +7,21 @@ import org.springframework.stereotype.Component;
 public class Teacher {
 
 	String name;
-	@Autowired
 	User user;
 	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public User getUser() {
 		return user;
 	}
+	
+	@Autowired
 	public void setUser(User user) {
 		this.user = user;
 	}
